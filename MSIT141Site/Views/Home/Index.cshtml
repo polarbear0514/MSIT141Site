@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Styles{
+    <style>
+       /* h1 {
+            background-color: lightgray;
+        }*/
+       td{border:1px solid gray}
+        th {
+            border: 1px solid gray
+        }
+        table {
+            border-collapse: collapse;
+            border: 1px solid gray;
+            text-align: center;
+            margin: 10px;
+            table-layout:fixed;
+            width:40%
+        }
+    </style>
+}
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<input type="button" value="click" class="btnch"/>
+<table class="chtb"></table>
+
+
+@section Scripts{
+    
+    <script>
+        $('.btnch').click(function () {
+            //    console.log("Hello"),
+            //        $('.display-4').text("Welcome MVC!!"),
+            //        $('h1').attr('style',  'background-color:lightgray')
+            //}     
+            //)
+            var emp = {
+                "employees": [
+                    { "name": "Tom", "workYears": 3, "salary": 35000 },
+                    { "name": "Jack", "workYears": 5, "salary": 40000 },
+                    { "name": "Mary", "workYears": 7, "salary": 45000 }
+                ]
+            };
+            let td = "";
+            let emp1 = emp.employees;
+            let arr = Object.keys(emp1[0])
+            td = `<tr><th>${arr[0]}</th><th>${arr[1]}</th><th>${arr[2]}</th></tr>`
+            for (let i = 0, max = emp1.length; i < max; i++) {
+                td += `<tr><td>${emp1[i].name}</td><td>${emp1[i].workYears}</td><td>${emp1[i].salary}</td></tr>`
+                //console.log(arr[0])
+                //console.log(emp1[i].workYears)
+                //console.log(emp1[i].salary)
+            }
+            $('.chtb').append(td);
+        })
+    </script>
+} 
