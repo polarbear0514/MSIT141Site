@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewData["Title"] = "FirstAjax";
+}
+
+<h1>FirstAjax</h1>
+
+<button type="button" class="btn btn-primary mb-3" id="buttonStart" >Ajax Start</button>
+<button type="button" class="btn btn-primary mb-3" id="buttonStop">Ajax Stop</button>
+<div id="div1" class="alert alert-secondary"></div>
+<input type="text" id="inputname" class="form-control" placeholder="請輸入姓名">
+<br>
+<input type="number" id="inputage" class="form-control" placeholder="請輸入年齡">
+
+@section Scripts{
+    <script>
+    const btnStart = document.querySelector('#buttonStart')
+    const btnStop = document.querySelector('#buttonStop');
+    const divInfo = document.querySelector('#div1')
+    const username = document.querySelector('#inputname')
+    const userage = document.querySelector('#inputage')
+    //step1 建立Ajax物件
+    const xhr = new XMLHttpRequest();
+
+    btnStop.addEventListener('click', () => {
+        xhr.abort();
+    })
+    btnStart.addEventListener('click', () => {
+
+
+
+
+
+        //step3 在load事件中接收資料
+        xhr.addEventListener('load', () => {
+            console.log("load");
+            const data = xhr.responseText;          //接收資料
+            divInfo.innerHTML = `<h2>${data}</h2>`; //顯示資料
+        })
+        xhr.addEventListener('loadstart', () => {          //loadstar如果寫在xhr.open("GET", url + params);之後，就不會顯示，因為事件還沒有被註冊
+            console.log('loadstart');
+            btnStart.textContent = "Loading...";
+            btnStart.setAttribute('disabled', 'disabled');
+        })
+        xhr.addEventListener('loadend', () => {
+            console.log('loadend');
+            btnStart.removeAttribute('disabled');
+            btnStart.textContent = "Ajax Start";
+        })
+        xhr.addEventListener('timeout', () => {
+            console.log('timeout');
+            divInfo.innerHTML = "<h3>伺服器忙碌中請稍後再來</h3>"
+        })
+        xhr.addEventListener('abort', () => {
+            console.log('abort');
+            divInfo.innerHTML = "<h3>您終止了程式的執行</h3>"
+        })
+         //step2 對伺服器發出請求
+        const url = "@Url.Content("~/Api/index")";
+        const params = `?name=${username.value}&age=${userage.value}`
+        //xhr.open("GET", `/Api/index?name=${username.value}&age=${userage.value}`); //開啟瀏覽器輸入網址，用GET或POST
+        xhr.open("GET", url + params);
+        xhr.timeout = 3000; //3秒鐘伺服器沒有回傳結果就終止程式執行
+        xhr.send();  //執行
+
+
+    });
+
+
+
+    </script>
+
+ }

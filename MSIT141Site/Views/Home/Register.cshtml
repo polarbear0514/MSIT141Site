@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <form method="post" enctype="application/x-www-form-urlencoded" name="userInfo">
+            <div class="form-group">
+                <label for="InputName">姓名</label>
+                <input type="text" class="form-control" id="InputName" name="name">
+                <small id="emailHelp" class="form-text text-muted"></small>
+            </div>
+            <div class="form-group">
+                <label for="InputEmail">電子郵件</label>
+                <input type="text" class="form-control" id="InputEmail" name="email">
+            </div>
+            <div class="form-group">
+                <label for="InputAge">年紀</label>
+                <input type="number" class="form-control" id="InputAge" name="age">
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+        <div class="alert alert-info" id="div1"></div>
+    </div>
+    <div class="col-3"></div>
+</div>
+@section Scripts{
+    <script>
+    const btnSubmit = document.querySelector('.btn');
+    const divInfo = document.querySelector('#div1');
+    const memberName = document.querySelector('#InputName');
+        memberName.addEventListener('blur', (evt) => {
+            evt.preventDefault();
+            const xhr = new XMLHttpRequest();
+            const formdata = new FormData(document.userInfo);
+            xhr.addEventListener('load', () => {
+            const data = xhr.responseText;
+                emailHelp.innerHTML = data;
+        })
+        xhr.open('POST', '@Url.Content("~/Api/CheckName")');
+        xhr.send(formdata);
+
+        })
+    btnSubmit.addEventListener('click', (evt) => {
+        evt.preventDefault();//停止預設行為
+        //step1
+        const formdata = new FormData(document.userInfo);
+        const xhr = new XMLHttpRequest();
+
+        //step3
+        xhr.addEventListener('load', () => {
+            const data = xhr.responseText;
+            divInfo.innerHTML = `<h3>${data}</h3>`;
+        })
+
+        //step2
+
+        xhr.open('POST', '@Url.Content("~/Api/index")');
+
+        xhr.send(formdata);
+
+
+    })
+
+    </script>
+
+}
