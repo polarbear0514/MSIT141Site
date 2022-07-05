@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewData["Title"] = "HW3";
+}
+
+<h1>HW3</h1>
+<select id="select1">
+</select>
+<select id="select2">
+</select>
+<select id="select3">
+</select>
+
+
+@section Scripts{
+    <script>
+        const selCity = document.querySelector('#select1');
+        const selDistricts = document.querySelector('#select2');
+        const selRoads = document.querySelector('#select3');
+        async function LoadCity() {
+            const response = await fetch('@Url.Content("~/api/city")');
+            const datas = await response.json();
+            datas.forEach(city => {
+                const opt = new Option(city, city);
+                selCity.options.add(opt);
+            });
+            await LoadDistrict();
+        }
+        async function LoadDistrict() {
+            $('#select2>option').remove();
+           const selectedcity = await selCity.options[selCity.selectedIndex].value
+           const response2 = await fetch('@Url.Content("~/api/Districts")' + `?city=${selectedcity}`);
+           const datas2 = await response2.json();
+           datas2.forEach(districts => {
+               const opt = new Option(districts, districts);
+               selDistricts.options.add(opt);
+           });
+            await LoadRoad();
+        }
+        async function LoadRoad() {
+            $('#select3>option').remove();
+           const districts =await selDistricts.options[selDistricts.selectedIndex].value
+           const response3 = await fetch('@Url.Content("~/api/Roads")' + `?district=${districts}`);
+           const datas3 = await response3.json();
+           datas3.forEach(road => {
+               const opt = new Option(road, road);
+               selRoads.options.add(opt);
+           });
+        }
+        $('#select1').on('change', LoadDistrict);
+        $('#select2').on('change', LoadRoad);
+        LoadCity();
+    </script>
+}

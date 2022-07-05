@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-3"></div>
     <div class="col-6">
-        <form method="post" enctype="application/x-www-form-urlencoded" name="userInfo">
+        <form method="post" enctype="application/x-www-form-urlencoded" name="userInfo" >
             <div class="form-group">
                 <label for="InputName">姓名</label>
                 <input type="text" class="form-control" id="InputName" name="name">
@@ -21,6 +21,10 @@
             <div class="form-group">
                 <label for="InputAge">年紀</label>
                 <input type="number" class="form-control" id="InputAge" name="age">
+            </div>
+            <div class="custom-file  mt-3">
+                <input type="file" class="custom-file-input" id="customFile" name="file">
+                <label class="custom-file-label" for="customFile">選擇檔案</label>
             </div>
 
             <button type="submit" class="btn btn-primary mt-3">Submit</button>
@@ -48,21 +52,28 @@
         })
     btnSubmit.addEventListener('click', (evt) => {
         evt.preventDefault();//停止預設行為
-        //step1
+
         const formdata = new FormData(document.userInfo);
-        const xhr = new XMLHttpRequest();
+        //透過fetch()上傳圖檔
+        fetch('@Url.Content("~/api/register")', {
+            method: 'POST',
+            body: formdata
+        }).then(response => response.text()).then(data => divInfo.innerHTML = data);
+
+        //step1
+        //const xhr = new XMLHttpRequest();
 
         //step3
-        xhr.addEventListener('load', () => {
-            const data = xhr.responseText;
-            divInfo.innerHTML = `<h3>${data}</h3>`;
-        })
+        //xhr.addEventListener('load', () => {
+        //    const data = xhr.responseText;
+        //    divInfo.innerHTML = `<h3>${data}</h3>`;
+        //})
 
         //step2
 
-        xhr.open('POST', '@Url.Content("~/Api/index")');
+        //xhr.open('POST', '@Url.Content("~/Api/Register")');
 
-        xhr.send(formdata);
+        //xhr.send(formdata);
 
 
     })

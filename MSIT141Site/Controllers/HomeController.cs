@@ -23,6 +23,23 @@ namespace MSIT141Site.Controllers
         {
             return View();
         }
+        public IActionResult Address()
+        {
+            return View();
+        }
+        public IActionResult Promise()
+        {
+            return View();
+        }
+        public IActionResult Fetch()
+        {
+            return View();
+        }
+
+        public IActionResult HW3()
+        {
+            return View();
+        }
 
         public IActionResult FirstAjax()
         {

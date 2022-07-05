@@ -4,14 +4,12 @@
 }
 
 <h1>FirstAjax</h1>
-
 <button type="button" class="btn btn-primary mb-3" id="buttonStart" >Ajax Start</button>
 <button type="button" class="btn btn-primary mb-3" id="buttonStop">Ajax Stop</button>
 <div id="div1" class="alert alert-secondary"></div>
 <input type="text" id="inputname" class="form-control" placeholder="請輸入姓名">
 <br>
 <input type="number" id="inputage" class="form-control" placeholder="請輸入年齡">
-
 @section Scripts{
     <script>
     const btnStart = document.querySelector('#buttonStart')
@@ -26,11 +24,6 @@
         xhr.abort();
     })
     btnStart.addEventListener('click', () => {
-
-
-
-
-
         //step3 在load事件中接收資料
         xhr.addEventListener('load', () => {
             console.log("load");
@@ -62,12 +55,6 @@
         xhr.open("GET", url + params);
         xhr.timeout = 3000; //3秒鐘伺服器沒有回傳結果就終止程式執行
         xhr.send();  //執行
-
-
     });
-
-
-
     </script>
-
  }
